@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Outil avancé de timestamp pour convertir, générer et vérifier des horodatages. Prend en charge les formats Unix, epoch, Discord, ISO et plus." />
+  <meta name="keywords" content="timestamp, horodatage, convertisseur timestamp, timestamp unix, epoch timestamp, discord timestamp, convertir timestamp" />
+  <title>horodatage.pro - Outil avancé d'horodatage</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #f5f5f5;
+      --accent: #c53030;
+      --gold: #d4af37;
+      --text: #333;
+      --white: #fff;
+    }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--secondary);
+      color: var(--text);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--white);
+    }
+    .logo-icon {
+      color: var(--gold);
+      font-size: 2rem;
+    }
+    header {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 2rem 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    nav {
+      background-color: var(--primary);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav ul li {
+      margin: 0.5rem;
+    }
+    nav ul li a {
+      color: var(--white);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .card {
+      background-color: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    h1, h2, h3 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
+    }
+    .tool-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .tool-card {
+      background-color: var(--white);
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .tool-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    button {
+      background-color: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #9b2b2b;
+    }
+    .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+      word-break: break-all;
+    }
+    .faq {
+      margin-top: 2rem;
+    }
+    .faq-item {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+    .faq-question {
+      font-weight: bold;
+      cursor: pointer;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question::after {
+      content: "+";
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    .faq-answer {
+      display: none;
+      margin-top: 0.5rem;
+      color: var(--text);
+    }
+    .faq-open .faq-question::after {
+      transform: rotate(45deg);
+    }
+    footer {
+      background-color: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 2rem;
+    }
+    .lang-switch {
+      text-align: right;
+      margin: 1rem;
+    }
+    .lang-switch a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+      background-color: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .feature-tag {
+      background-color: rgba(26, 54, 93, 0.1);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-switch">
+    <a href="/en/">Passer en anglais</a>
+  </div>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⏱️</span>
+        <span>Horodatage Pro</span>
+      </div>
+      <h1>Outil avancé d'horodatage</h1>
+      <p>Convertir, générer et vérifier des timestamps en plusieurs formats avec précision</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Timestamp Unix</span>
+        <span class="feature-tag">Convertisseur Epoch</span>
+        <span class="feature-tag">Horodatages Discord</span>
+        <span class="feature-tag">Format ISO</span>
+        <span class="feature-tag">Compatible Linux</span>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="#">Accueil</a></li>
+      <li><a href="#generate">Générer Timestamp</a></li>
+      <li><a href="#convert">Convertir Timestamp</a></li>
+      <li><a href="#verify">Vérifier Timestamp</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="politique-de-confidentialite.html">Politique de confidentialité</a></li>
+      <li><a href="conditions-d'utilisation.html">Conditions d'utilisation</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <section class="card">
+      <h2>À propos des timestamps</h2>
+      <p>Un timestamp est une séquence de caractères ou d'informations encodées identifiant le moment où un événement s'est produit, généralement donnant la date et l'heure du jour, parfois avec une précision jusqu'à une fraction de seconde. Notre outil prend en charge divers formats de timestamp, notamment Unix, epoch, Discord et ISO, ce qui facilite la <strong>conversion d'un timestamp en date</strong>, la <strong>conversion d'un epoch en timestamp</strong> et la manipulation des formats de <strong>timestamp unix</strong>.</p>
+    </section>
+
+    <div class="tool-group">
+      <div class="tool-card" id="generate">
+        <h3>Générer Timestamp</h3>
+        <p>Créer des timestamps précis pour vos données, documents ou applications.</p>
+        <div class="form-group">
+          <label for="gen-date">Date et heure</label>
+          <input type="datetime-local" id="gen-date" />
+        </div>
+        <div class="form-group">
+          <label for="gen-format">Format de sortie</label>
+          <select id="gen-format">
+            <option value="unix">Timestamp Unix</option>
+            <option value="epoch">Heure Epoch</option>
+            <option value="iso">ISO 8601</option>
+            <option value="discord">Timestamp Discord</option>
+          </select>
+        </div>
+        <button onclick="generateTimestamp()">Générer Timestamp</button>
+        <div class="result" id="gen-result"></div>
+      </div>
+
+      <div class="tool-card" id="convert">
+        <h3>Convertir Timestamp</h3>
+        <p>Convertir facilement entre différents formats de timestamp.</p>
+        <div class="form-group">
+          <label for="conv-input">Entrez le timestamp</label>
+          <input type="text" id="conv-input" placeholder="Ex: 1693459200 ou 2023-09-01T12:00:00Z" />
+        </div>
+        <div class="form-group">
+          <label for="conv-format">Format de sortie</label>
+          <select id="conv-format">
+            <option value="unix">Timestamp Unix</option>
+            <option value="epoch">Heure Epoch</option>
+            <option value="iso">ISO 8601</option>
+            <option value="discord">Timestamp Discord</option>
+            <option value="human">Date lisible par l'homme</option>
+          </select>
+        </div>
+        <button onclick="convertTimestamp()">Convertir Timestamp</button>
+        <div class="result" id="conv-result"></div>
+      </div>
+
+      <div class="tool-card" id="verify">
+        <h3>Vérifier Timestamp</h3>
+        <p>Vérifiez l'authenticité et la précision des timestamps existants.</p>
+        <div class="form-group">
+          <label for="ver-input">Timestamp</label>
+          <input type="text" id="ver-input" placeholder="Entrez le timestamp à vérifier..." />
+        </div>
+        <div class="form-group">
+          <label for="ver-format">Format du timestamp</label>
+          <select id="ver-format">
+            <option value="unix">Timestamp Unix</option>
+            <option value="epoch">Heure Epoch</option>
+            <option value="iso">ISO 8601</option>
+            <option value="discord">Timestamp Discord</option>
+          </select>
+        </div>
+        <button onclick="verifyTimestamp()">Vérifier Timestamp</button>
+        <div class="result" id="ver-result"></div>
+      </div>
+    </div>
+
+    <section class="card faq" id="faq">
+      <h2>FAQ - Questions fréquemment posées sur les timestamps</h2>
+      
+      <div class="faq-item">
+        <div class="faq-question">Qu'est-ce qu'un timestamp ?</div>
+        <div class="faq-answer">
+          <p>Un timestamp est une séquence de caractères qui enregistre la date et l'heure d'un événement. Il sert à suivre quand quelque chose s'est produit, avec une précision variable allant des secondes aux millisecondes.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Comment convertir un timestamp en date ?</div>
+        <div class="faq-answer">
+          <p>Pour convertir un timestamp en date, entrez votre timestamp dans l'outil de conversion ci-dessus, sélectionnez "Date lisible par l'homme" comme format de sortie, puis cliquez sur "Convertir Timestamp". Notre outil fonctionne avec les timestamps Unix, l'heure epoch et d'autres formats.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Qu'est-ce qu'un timestamp Unix ?</div>
+        <div class="faq-answer">
+          <p>Un timestamp Unix (ou temps Unix) est le nombre de secondes écoulées depuis le début de l'époque Unix - le 1er janvier 1970, 00:00:00 UTC. Il est largement utilisé dans les systèmes informatiques et la programmation.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Comment convertir epoch en timestamp ?</div>
+        <div class="faq-answer">
+          <p>L'heure epoch est essentiellement la même que le timestamp Unix - c'est le nombre de secondes depuis le 1er janvier 1970. Pour convertir l'heure epoch en un timestamp lisible par l'homme, utilisez notre outil de conversion et sélectionnez le format de sortie souhaité.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Qu'est-ce qu'un timestamp Discord ?</div>
+        <div class="faq-answer">
+          <p>Les timestamps Discord sont des timestamps formatés spécialement qui s'affichent différemment selon le fuseau horaire de l'utilisateur. Ils utilisent le format &lt;t:timestamp:format&gt; où le format spécifie comment la date/heure doit être affichée.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Comment fonctionne un convertisseur de timestamp ?</div>
+        <div class="faq-answer">
+          <p>Un convertisseur de timestamp interprète la valeur d'entrée comme un point dans le temps (soit sous forme de timestamp numérique, soit sous forme de chaîne de date) et la convertit au format de sortie souhaité. Notre convertisseur prend en charge plusieurs formats, notamment Unix, epoch, ISO 8601 et les timestamps Discord.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Quel est le format de timestamp ISO ?</div>
+        <div class="faq-answer">
+          <p>Le format de timestamp ISO 8601 est une norme internationale pour la représentation de la date et de l'heure. Il se présente généralement comme "2023-09-01T12:00:00Z" où T sépare la date et l'heure, et Z indique l'heure UTC.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Comment convertir une date en timestamp ?</div>
+        <div class="faq-answer">
+          <p>Pour convertir une date en timestamp, utilisez notre outil "Générer Timestamp". Sélectionnez ou entrez la date et l'heure, choisissez le format de timestamp préféré (Unix, epoch, etc.), puis cliquez sur "Générer Timestamp" pour obtenir la valeur de timestamp correspondante.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Quelle est la différence entre timestamp to datetime et timestamp to date ?</div>
+        <div class="faq-answer">
+          <p>La conversion "timestamp to datetime" inclut à la fois des informations de date et d'heure (par exemple, "2023-09-01 14:30:00"), tandis que "timestamp to date" fait généralement référence à la conversion uniquement de la partie date (par exemple, "2023-09-01"). Notre outil prend en charge les deux conversions.</p>
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <div class="faq-question">Existe-t-il un convertisseur de timestamp pour Linux ?</div>
+        <div class="faq-answer">
+          <p>Notre outil en ligne fonctionne parfaitement pour les conversions de timestamps Linux. Linux utilise des timestamps Unix, que notre convertisseur prend entièrement en charge. Vous pouvez facilement convertir entre les timestamps Linux/Unix et les dates lisibles par l'homme.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 horodatage.pro - Tous droits réservés</p>
+  </footer>
+
+  <script>
+    // Fonctionnalité de bascule FAQ
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.closest('.faq-item');
+        item.classList.toggle('faq-open');
+        const answer = question.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+
+    // Fonctionnalité de l'outil (exemples simplifiés)
+    function generateTimestamp() {
+      const dateInput = document.getElementById('gen-date').value;
+      const format = document.getElementById('gen-format').value;
+      const date = new Date(dateInput);
+      let result;
+      
+      switch(format) {
+        case 'unix':
+          result = Math.floor(date.getTime() / 1000);
+          break;
+        case 'epoch':
+          result = Math.floor(date.getTime() / 1000);
+          break;
+        case 'iso':
+          result = date.toISOString();
+          break;
+        case 'discord':
+          result = `<t:${Math.floor(date.getTime() / 1000)}:F>`;
+          break;
+      }
+      
+      document.getElementById('gen-result').textContent = `Généré ${format} : ${result}`;
+    }
+
+    function convertTimestamp() {
+      const input = document.getElementById('conv-input').value;
+      const format = document.getElementById('conv-format').value;
+      let date;
+      
+      // Tentative de parsing de l'entrée en timestamp ou chaîne de date
+      if (!isNaN(input)) {
+        date = new Date(parseInt(input) * 1000);
+      } else {
+        date = new Date(input);
+      }
+      
+      let result;
+      
+      switch(format) {
+        case 'unix':
+          result = Math.floor(date.getTime() / 1000);
+          break;
+        case 'epoch':
+          result = Math.floor(date.getTime() / 1000);
+          break;
+        case 'iso':
+          result = date.toISOString();
+          break;
+        case 'discord':
+          result = `<t:${Math.floor(date.getTime() / 1000)}:F>`;
+          break;
+        case 'human':
+          result = date.toLocaleString('fr-FR');
+          break;
+      }
+      
+      document.getElementById('conv-result').textContent = `Résultat converti : ${result}`;
+    }
+
+    function verifyTimestamp() {
+      const input = document.getElementById('ver-input').value;
+      const format = document.getElementById('ver-format').value;
+      let isValid = false;
+      let message = '';
+      
+      try {
+        if (format === 'unix' || format === 'epoch') {
+          if (!isNaN(input)) {
+            const date = new Date(parseInt(input) * 1000);
+            isValid = !isNaN(date.getTime());
+            message = isValid ? `Timestamp ${format} valide : ${date.toLocaleString('fr-FR')}` : 'Valeur de timestamp invalide';
+          } else {
+            message = 'Veuillez entrer une valeur numérique pour ce format';
+          }
+        } else if (format === 'iso') {
+          const date = new Date(input);
+          isValid = !isNaN(date.getTime()) && input === date.toISOString();
+          message = isValid ? `Timestamp ISO valide : ${date.toLocaleString('fr-FR')}` : 'Format de timestamp ISO invalide';
+        } else if (format === 'discord') {
+          const match = input.match(/<t:(\d+):[a-zA-Z]?>/);
+          if (match && match[1]) {
+            const date = new Date(parseInt(match[1]) * 1000);
+            isValid = !isNaN(date.getTime());
+            message = isValid ? `Timestamp Discord valide : ${date.toLocaleString('fr-FR')}` : 'Timestamp invalide au format Discord';
+          } else {
+            message = 'Format de timestamp Discord invalide';
+          }
+        }
+      } catch (e) {
+        message = 'Erreur lors de la vérification du timestamp : ' + e.message;
+      }
+      
+      document.getElementById('ver-result').textContent = message;
+    }
+  </script>
+</body>
+</html>
