@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blog sur les timestamps et leur conversion en date. Astuces, guides et explications sur les formats Unix, Epoch et ISO." />
+  <meta name="keywords" content="timestamp blog, conversion timestamp en date, guide timestamp unix, astuces epoch" />
+  <title>Blog | horodatage.pro</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #f5f5f5;
+      --accent: #c53030;
+      --gold: #d4af37;
+      --text: #333;
+      --white: #fff;
+    }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--secondary);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--white);
+    }
+    .logo-icon {
+      color: var(--gold);
+      font-size: 2rem;
+    }
+    header {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 2rem 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    nav {
+      background-color: var(--primary);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav ul li {
+      margin: 0.5rem;
+    }
+    nav ul li a {
+      color: var(--white);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .card {
+      background-color: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .blog-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .blog-posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .blog-card {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+    .blog-image {
+      height: 200px;
+      background-color: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 3rem;
+    }
+    .blog-content {
+      padding: 1.5rem;
+    }
+    .blog-date {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .blog-title {
+      color: var(--primary);
+      margin: 0 0 1rem 0;
+      font-size: 1.5rem;
+    }
+    .blog-excerpt {
+      margin-bottom: 1.5rem;
+    }
+    .blog-link {
+      display: inline-block;
+      color: var(--primary);
+      font-weight: bold;
+      text-decoration: none;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 2px;
+    }
+    footer {
+      background-color: var(--primary);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 2rem;
+    }
+    .lang-switch {
+      text-align: right;
+      margin: 1rem;
+    }
+    .lang-switch a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+      background-color: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-switch">
+    <a href="/en/blog.html">Switch to English</a>
+  </div>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⏱️</span>
+        <span>Horodatage Pro</span>
+      </div>
+      <h1>Blog sur les Timestamps et Conversion en Date</h1>
+      <p>Guides, astuces et explications pour maîtriser la conversion timestamp en date</p>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/#generate">Générer Timestamp</a></li>
+      <li><a href="/#convert">Convertir Timestamp en Date</a></li>
+      <li><a href="/#verify">Vérifier Timestamp</a></li>
+      <li><a href="/#faq">FAQ Timestamp en Date</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="politique-de-confidentialite.html">Politique de confidentialité</a></li>
+      <li><a href="conditions-d'utilisation.html">Conditions d'utilisation</a></li>
+    </ul>
+  </nav>
+  <div class="container">
+    <section class="card blog-header">
+      <h2>Articles récents</h2>
+      <p>Découvrez tout ce que vous devez savoir sur les timestamps, leur conversion en date et leur utilisation dans différents contextes.</p>
+    </section>
+
+    <div class="blog-posts">
+      <div class="blog-card">
+        <div class="blog-image">⏱️</div>
+        <div class="blog-content">
+          <div class="blog-date">14 août 2024</div>
+          <h3 class="blog-title">Comment convertir un timestamp Unix en date : Guide complet</h3>
+          <p class="blog-excerpt">Apprenez à convertir facilement un timestamp Unix en date lisible par l'homme, que ce soit manuellement, avec notre outil ou via des commandes Linux...</p>
+          <a href="#" class="blog-link">Lire la suite →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-image">📅</div>
+        <div class="blog-content">
+          <div class="blog-date">7 août 2024</div>
+          <h3 class="blog-title">Les formats de timestamp expliqués : Unix, Epoch et ISO 8601</h3>
+          <p class="blog-excerpt">Comprennez les différences entre les principaux formats de timestamp, leurs utilisations et comment les convertir les uns dans les autres...</p>
+          <a href="#" class="blog-link">Lire la suite →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-image">💻</div>
+        <div class="blog-content">
+          <div class="blog-date">31 juillet 2024</div>
+          <h3 class="blog-title">Timestamp en millisecondes vs secondes : Quelle différence ?</h3>
+          <p class="blog-excerpt">Découvrez comment différencier les timestamps en secondes et en millisecondes, et pourquoi cela importe pour obtenir une date précise...</p>
+          <a href="#" class="blog-link">Lire la suite →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-image">🐧</div>
+        <div class="blog-content">
+          <div class="blog-date">24 juillet 2024</div>
+          <h3 class="blog-title">Outils et commandes pour convertir des timestamps sous Linux</h3>
+          <p class="blog-excerpt">Guide des commandes Linux pour travailler avec les timestamps : conversion en date, génération et vérification directement dans le terminal...</p>
+          <a href="#" class="blog-link">Lire la suite →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-image">🔄</div>
+        <div class="blog-content">
+          <div class="blog-date">17 juillet 2024</div>
+          <h3 class="blog-title">Erreurs courantes lors de la conversion timestamp en date</h3>
+          <p class="blog-excerpt">Découvrez les erreurs les plus fréquentes que l'on rencontre lors de la conversion d'un timestamp en date et comment les corriger...</p>
+          <a href="#" class="blog-link">Lire la suite →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-image">🤖</div>
+        <div class="blog-content">
+          <div class="blog-date">10 juillet 2024</div>
+          <h3 class="blog-title">Utiliser les timestamps dans les applications : Bonnes pratiques</h3>
+          <p class="blog-excerpt">Conseils pour utiliser efficacement les timestamps dans vos développements : stockage, conversion et gestion des fuseaux horaires...</p>
+          <a href="#" class="blog-link">Lire la suite →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 horodatage.pro - Tous droits réservés</p>
+  </footer>
+</body>
+</html>
